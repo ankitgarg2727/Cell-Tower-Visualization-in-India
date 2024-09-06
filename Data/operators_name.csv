@@ -1,0 +1,201 @@
+mcc,mnc,Operator,Circle
+405,1,Jio,Andhra Pradesh and Telangana
+404,01,Vodafone Idea,Haryana
+404,02,Airtel,Punjab
+405,03,Jio,Bihar
+404,03,Airtel,Himachal Pradesh
+405,04,Jio,Chennai
+404,04,Vodafone Idea,Delhi & NCR
+405,05,Jio,Delhi & NCR
+404,05,Vodafone Idea,Gujarat
+405,06,Jio,Gujarat
+405,07,Jio,Haryana
+404,07,Vodafone Idea,Andhra Pradesh and Telangana
+405,08,Jio,Himachal Pradesh
+405,09,Jio,Jammu & Kashmir
+404,09,Jio,Assam
+405,10,Jio,Karnataka
+404,10,Airtel,Delhi & NCR
+405,11,Jio,Kerala
+404,11,Vodafone Idea,Delhi & NCR
+405,12,Jio,Kolkata
+404,12,Vodafone Idea,Haryana
+405,13,Jio,Maharashtra & Goa
+404,13,Vodafone Idea,Andhra Pradesh and Telangana
+405,14,Jio,Madhya Pradesh
+404,14,Vodafone Idea,Punjab
+405,15,Jio,Mumbai
+404,15,Vodafone Idea,Uttar Pradesh (East)
+404,16,Airtel,North East
+405,17,Jio,Orissa
+404,17,AIRCEL (Not in Use),West Bengal
+405,18,Jio,Punjab
+404,18,Jio,Himachal Pradesh
+405,19,Jio,Rajasthan
+404,19,Vodafone Idea,Kerala
+405,20,Jio,Tamil Nadu
+404,20,Vodafone Idea,Mumbai
+405,21,Jio,Uttar Pradesh (East)
+404,21,Loop Mobile (Not in Use),Mumbai
+405,22,Jio,Uttar Pradesh (West)
+404,22,Vodafone Idea,Maharashtra & Goa
+405,23,Jio,West Bengal
+404,24,Vodafone Idea,Gujarat
+405,25,Airtel,Andhra Pradesh and Telangana
+404,25,AIRCEL (Not in Use),Bihar
+405,26,Airtel,Assam
+405,27,Airtel,Bihar/Jharkhand
+404,27,Vodafone Idea,Maharashtra & Goa
+405,28,Airtel,Chennai
+404,28,AIRCEL (Not in Use),Orissa
+405,29,Airtel,Delhi
+404,29,AIRCEL (Not in Use),Assam
+405,30,Airtel,Gujarat
+404,30,Vodafone Idea,Kolkata
+405,31,Airtel,Haryana
+404,31,Airtel,Kolkata
+405,32,Airtel,Himachal Pradesh
+405,33,Airtel,Jammu & Kashmir
+405,34,Airtel,Karnataka
+404,34,BSNL,Haryana
+405,35,Airtel,Kerala
+404,35,AIRCEL (Not in Use),Himachal Pradesh
+405,36,Airtel,Kolkata
+404,36,Jio,Bihar & Jharkhand
+405,37,Airtel,Maharashtra & Goa
+404,37,AIRCEL (Not in Use),Jammu & Kashmir
+405,38,Airtel,Madhya Pradesh
+404,38,BSNL,Assam
+405,39,Airtel,Mumbai
+404,40,Airtel,Chennai
+405,41,Airtel,Orissa
+404,41,AIRCEL (Not in Use),Chennai
+405,42,Airtel,Punjab
+404,42,AIRCEL (Not in Use),Tamil Nadu
+405,43,Airtel,Rajasthan
+404,43,Vodafone Idea,Tamil Nadu
+405,44,Airtel,Tamil Nadu including Chennai
+404,44,Vodafone Idea,Karnataka
+405,45,Airtel,Uttar Pradesh (E)
+404,45,Airtel,Karnataka
+405,46,Airtel,Uttar Pradesh (W) & Uttarakhand
+404,46,Vodafone Idea,Kerala
+405,47,Airtel,West Bengal
+404,48,Dishnet Wireless,Unknown
+404,49,Airtel,Andhra Pradesh and Telangana
+404,50,Jio,North East
+405,51,Airtel,West Bengal
+404,51,BSNL,Himachal Pradesh
+405,52,Airtel,Bihar & Jharkhand
+404,52,Jio,Orissa
+405,53,Airtel,Orissa
+404,53,BSNL,Punjab
+405,54,Airtel,Uttar Pradesh (East)
+404,54,BSNL,Uttar Pradesh (West)
+405,55,Airtel,Jammu & Kashmir
+404,55,BSNL,Uttar Pradesh (East)
+405,56,Airtel,Assam
+404,56,Vodafone Idea,Uttar Pradesh (West)
+404,57,BSNL,Gujarat
+404,58,BSNL,Madhya Pradesh & Chhattisgarh
+404,59,BSNL,Rajasthan
+404,60,Vodafone Idea,Rajasthan
+404,62,BSNL,Jammu & Kashmir
+404,64,BSNL,Chennai
+405,66,Vodafone Idea,Uttar Pradesh (West)
+404,66,BSNL,Maharashtra & Goa
+405,67,Vodafone Idea,West Bengal
+404,67,Jio,Madhya Pradesh & Chhattisgarh
+404,68,DOLPHIN,Delhi & NCR
+404,69,DOLPHIN,Mumbai
+405,70,Vodafone Idea,Bihar & Jharkhand
+404,70,Airtel,Rajasthan
+404,71,BSNL,Karnataka (Bangalore)
+404,72,BSNL,Kerala
+404,73,BSNL,Andhra Pradesh and Telangana
+404,74,BSNL,West Bengal
+404,75,BSNL,Bihar
+404,76,BSNL,Orissa
+404,77,BSNL,North East
+404,78,Vodafone Idea,Madhya Pradesh & Chattishgarh
+404,79,BSNL,Andaman Nicobar
+404,80,BSNL,Tamil Nadu
+404,81,BSNL,Kolkata
+404,82,Vodafone Idea,Himachal Pradesh
+404,83,Jio,Kolkata
+404,84,Vodafone Idea,Chennai
+404,85,Jio,West Bengal
+404,86,Vodafone Idea,Karnataka
+404,87,Vodafone Idea,Rajasthan
+404,88,Vodafone Idea,Vodafone Punjab
+404,89,Vodafone Idea,Uttar Pradesh (East)
+404,90,Airtel,Maharashtra
+404,91,AIRCEL (Not in Use),Kolkata
+404,92,Airtel,Mumbai
+404,93,Airtel,Madhya Pradesh
+404,94,Airtel,Tamil Nadu
+404,95,Airtel,Kerala
+404,96,Airtel,Haryana
+404,97,Airtel,Uttar Pradesh (West)
+404,98,Airtel,Gujarat
+405,750,Vodafone Idea,Jammu & Kashmir
+405,751,Vodafone Idea,Assam
+405,752,Vodafone Idea,Bihar & Jharkhand
+405,753,Vodafone Idea,Orissa
+405,754,Vodafone Idea,Himachal Pradesh
+405,755,Vodafone Idea,North East
+405,756,Vodafone Idea,Madhya Pradesh & Chhattisgarh
+405,799,Vodafone Idea,Mumbai
+405,800,AIRCEL (Not in Use),Delhi & NCR
+405,801,AIRCEL (Not in Use),Andhra Pradesh and Telangana
+405,803,AIRCEL (Not in Use),Karnataka
+405,804,AIRCEL (Not in Use),Maharashtra & Goa
+405,805,AIRCEL (Not in Use),Mumbai
+405,806,AIRCEL (Not in Use),Rajasthan
+405,809,AIRCEL (Not in Use),Kerala
+405,810,AIRCEL (Not in Use),Uttar Pradesh (East)
+405,811,AIRCEL (Not in Use),Uttar Pradesh (West)
+405,818,Uninor,Uttar Pradesh (West)
+405,819,Uninor,Andhra Pradesh and Telangana
+405,820,Uninor,Karnataka
+405,821,Uninor,Kerala
+405,822,Uninor,Kolkata
+405,827,Videocon Datacom,Gujarat
+405,840,Jio,West Bengal
+405,845,Vodafone Idea,Assam
+405,846,Vodafone Idea,Jammu & Kashmir
+405,847,Vodafone Idea,Karnataka
+405,848,Vodafone Idea,Kolkata
+405,849,Vodafone Idea,North East
+405,850,Vodafone Idea,Orissa
+405,851,Vodafone Idea,Punjab
+405,852,Vodafone Idea,Tamil Nadu
+405,853,Vodafone Idea,West Bengal
+405,854,Jio,Andhra Pradesh
+405,855,Jio,Assam
+405,856,Jio,Bihar
+405,857,Jio,Gujarat
+405,858,Jio,Haryana
+405,859,Jio,Himachal Pradesh
+405,860,Jio,Jammu & Kashmir
+405,861,Jio,Karnataka
+405,862,Jio,Kerala
+405,863,Jio,Madhya Pradesh
+405,864,Jio,Maharashtra
+405,865,Jio,North East
+405,866,Jio,Orissa
+405,867,Jio,Punjab
+405,868,Jio,Rajasthan
+405,869,Jio,Tamil Nadu (incl. Chennai)
+405,870,Jio,Uttar Pradesh (West)
+405,871,Jio,Uttar Pradesh (East)
+405,872,Jio,Delhi
+405,873,Jio,Kolkata
+405,874,Jio,Mumbai
+405,880,Uninor,West Bengal
+405,908,Vodafone Idea,Andhra Pradesh and Telangana
+405,909,Vodafone Idea,Delhi
+405,910,Vodafone Idea,Haryana
+405,911,Vodafone Idea,Maharashtra
+405,927,Uninor,Gujarat
+405,929,Uninor,Maharashtra
