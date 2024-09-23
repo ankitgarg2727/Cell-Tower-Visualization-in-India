@@ -163,8 +163,8 @@ from folium.plugins import MarkerCluster
 # import plotly.io as pio
 
 # # Step 1: Load the GeoJSON files
-# highways = gpd.read_file("../delhi3road_geojson/highway.geojson")
-# cell_towers = gpd.read_file("../delhitowers/3G.geojson")
+# highways = gpd.read_file("/kaggle/input/a1-data82/celltowers/delhi3road_geojson/residential.geojson")
+# cell_towers = gpd.read_file("/kaggle/input/a1-data82/celltowers/delhitowers/3G.geojson")
 
 # # Step 2: Reproject both layers to a projected CRS (e.g., UTM zone 43N for Delhi, EPSG:32643)
 # projected_crs = 'EPSG:32643'  # UTM zone 43N (you can adjust based on your location)
@@ -181,9 +181,9 @@ from folium.plugins import MarkerCluster
 
 # # Convert distances to kilometers (since the CRS is in meters)
 # distances_km = np.array(distances) / 1000.0  # Convert from meters to kilometers
-
+# print("hello1")
 # # Step 4: Create bins (e.g., <1km, <2km, <3km, etc.)
-# bins = np.arange(0, np.max(distances_km) + 1, 0.5)  # Bins from 0 to the max distance in increments of 1km
+# bins = np.arange(0, np.max(distances_km) + 0.25, 0.25)  # Bins from 0 to the max distance in increments of 1km
 
 # # Step 5: Calculate the CDF
 # hist, bin_edges = np.histogram(distances_km, bins=bins, density=False)
@@ -207,60 +207,70 @@ from folium.plugins import MarkerCluster
 #     title='Cumulative Distribution Function (CDF) of Distances from Cell Towers to Roads',
 #     xaxis_title='Distance (km)',
 #     yaxis_title='Cumulative Probability',
+#     xaxis=dict(
+#         tickvals=np.arange(0, np.max(bin_edges[1:]) + 0.50, 0.50),  
+#         ticktext=[f"{v}" for v in np.arange(0, np.max(bin_edges[1:]) + 0.50,0.50)]  
+#     ),
 #     hovermode='closest',
 #     template='plotly_white',
 #     width=900,
 #     height=600,
 #     showlegend=False
 # )
-# pio.write_html(fig, file='../static/3G_highway_cdf.html', auto_open=False)
+# pio.write_html(fig, file='/kaggle/working/3G_residential_cdf.html', auto_open=False)
 # # Show plot
-# fig.show()
-
+# fig.show() 
 
 import geopandas as gpd
 from shapely.geometry import Point
-from rtree import index
+from shapely.ops import nearest_points
 import numpy as np
+import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import plotly.io as pio
 
-# Step 1: Load the GeoJSON files
-highways = gpd.read_file("../delhi3road_geojson/highway.geojson")
-cell_towers = gpd.read_file("../delhitowers/4G.geojson")
+# Load GeoJSON files for highways and cell towers
+highways = gpd.read_file('../delhi3road_geojson/highway.geojson')  # LineString geometries
+cell_towers = gpd.read_file('../delhitowers/4G.geojson')  # Point geometries
 
-# Step 2: Reproject both layers to a projected CRS (e.g., UTM zone 43N for Delhi, EPSG:32643)
 projected_crs = 'EPSG:32643'  # UTM zone 43N (you can adjust based on your location)
 highways = highways.to_crs(projected_crs)
 cell_towers = cell_towers.to_crs(projected_crs)
 
-# Step 3: Create an R-tree spatial index for the highways
-highway_idx = index.Index()
-for i, highway in enumerate(highways.geometry):
-    highway_idx.insert(i, highway.bounds)
+# Ensure both datasets are in the same CRS (coordinate reference system)
+# cell_towers = cell_towers.to_crs(highways.crs)
 
-# Step 4: Calculate shortest distance from each cell tower to the nearest highway using spatial index
-distances = []
-for cell_tower in cell_towers.geometry:
-    # Find the nearest highway using the R-tree spatial index
-    nearest_highway_id = list(highway_idx.nearest(cell_tower.bounds, 1))[0]
-    nearest_highway = highways.geometry.iloc[nearest_highway_id]
+# Build a spatial index for highways to speed up the nearest-neighbor search
+highway_sindex = highways.sindex
 
-    # Calculate the distance to the nearest highway
-    distance = cell_tower.distance(nearest_highway)
-    distances.append(distance)
+# Function to calculate the minimum distance from a cell tower to the nearest highway using spatial indexing
+def min_distance_to_highway(cell_tower, highways, sindex):
+    # Get the bounding box of the cell tower to limit the search area
+    possible_matches_index = list(sindex.intersection(cell_tower.bounds))
+    possible_matches = highways.iloc[possible_matches_index]
+    
+    # If no possible matches are found, return np.nan (or you can return a large number like float('inf'))
+    if possible_matches.empty:
+        return np.nan  # No matches found, return NaN to handle later
+    
+    # Calculate distances between the cell tower and the possible nearby highways
+    distances = possible_matches.geometry.apply(lambda highway: cell_tower.distance(highway))
+    # print(distances.head())
+    # Return the minimum distance (a float), handling any NaN values
+    print(distances.min())
+    return distances.min()
 
-# Convert distances to kilometers (since the CRS is in meters)
-distances_km = np.array(distances) / 1000.0  # Convert from meters to kilometers
+# Apply the min_distance_to_highway function for each cell tower
+distances = cell_towers.geometry.apply(lambda tower: min_distance_to_highway(tower, highways, highway_sindex))
+print(distances) 
+distances = np.array(distances) / 1000.0
+distances = distances[~np.isnan(distances)]
+# Create distance intervals (bins) for CDF
+distance_bins = np.arange(0, np.max(distances)+0.25, 0.25)  # From 0 to 5000 meters in steps of 500 meters
+hist, bin_edges = np.histogram(distances, bins=distance_bins, density=False)
 
-# Step 5: Create bins (e.g., <1km, <2km, <3km, etc.)
-bins = np.arange(0, np.max(distances_km) + 0.25, 0.25)  # Bins from 0 to the max distance in increments of 0.5km
+cdf = np.cumsum(hist) / len(distances)
 
-# Step 6: Calculate the CDF
-hist, bin_edges = np.histogram(distances_km, bins=bins, density=False)
-cdf = np.cumsum(hist) / len(distances_km)
-
-# Step 7: Create a Plotly figure for the CDF
 fig = go.Figure()
 
 # Add trace for the CDF line
@@ -295,6 +305,90 @@ pio.write_html(fig, file='../static/4G_highway_cdf.html', auto_open=False)
 
 # Show the plot
 fig.show()
+
+
+# import geopandas as gpd
+# from shapely.geometry import Point
+# from rtree import index
+# import numpy as np
+# import plotly.graph_objects as go
+# import plotly.io as pio
+
+# # Step 1: Load the GeoJSON files
+# highways = gpd.read_file("../delhi3road_geojson/highway.geojson")
+# cell_towers = gpd.read_file("../delhitowers/3G.geojson")
+
+# # Step 2: Reproject both layers to a projected CRS (e.g., UTM zone 43N for Delhi, EPSG:32643)
+# projected_crs = 'EPSG:32643'  # UTM zone 43N (you can adjust based on your location)
+# highways = highways.to_crs(projected_crs)
+# cell_towers = cell_towers.to_crs(projected_crs)
+
+# # Step 3: Create an R-tree spatial index for the highways
+# highway_idx = index.Index()
+# for i, highway in enumerate(highways.geometry):
+#     highway_idx.insert(i, highway.bounds)
+
+# # Step 4: Calculate shortest distance from each cell tower to the nearest highway using spatial index
+# distances = []
+# for cell_tower in cell_towers.geometry:
+#     # Find the nearest highway using the R-tree spatial index
+#     nearest_highway_id = list(highway_idx.nearest(cell_tower.bounds, 1))[0]
+#     print(nearest_highway_id)
+#     nearest_highway = highways.geometry.iloc[nearest_highway_id]
+
+#     # Calculate the distance to the nearest highway
+#     distance = cell_tower.distance(nearest_highway)
+#     distances.append(distance)
+
+# # Convert distances to kilometers (since the CRS is in meters)
+# distances_km = np.array(distances) / 1000.0  # Convert from meters to kilometers
+
+# # Step 5: Create bins (e.g., <1km, <2km, <3km, etc.)
+# bins = np.arange(0, np.max(distances_km) + 0.25, 0.25)  # Bins from 0 to the max distance in increments of 0.5km
+# print(np.max(distances_km))
+# # Step 6: Calculate the CDF
+# hist, bin_edges = np.histogram(distances_km, bins=bins, density=False)
+# cdf = np.cumsum(hist) / len(distances_km)
+# print(len(distances_km))
+# print(hist)
+# print(bin_edges)
+# print(cdf)
+
+# # Step 7: Create a Plotly figure for the CDF
+# fig = go.Figure()
+
+# # Add trace for the CDF line
+# fig.add_trace(go.Scatter(
+#     x=bin_edges[1:],  # Exclude the leftmost bin edge
+#     y=cdf,
+#     mode='lines+markers',
+#     marker=dict(color='blue'),
+#     line=dict(shape='linear'),
+#     name='CDF',
+#     hovertemplate='<b>Distance: %{x:.2f} km</b><br>Cumulative Probability: %{y:.5f}<extra></extra>',
+# ))
+
+# # Add titles and labels
+# fig.update_layout(
+#     title='Cumulative Distribution Function (CDF) of Distances from Cell Towers to Roads',
+#     xaxis_title='Distance (km)',
+#     yaxis_title='Cumulative Probability',
+#     xaxis=dict(
+#         tickvals=np.arange(0, np.max(bin_edges[1:]) + 0.50, 0.50),  # Tick every 0.25 km (250m)
+#         ticktext=[f"{v}" for v in np.arange(0, np.max(bin_edges[1:]) + 0.50,0.50)]  # Show as meters
+#     ),
+#     hovermode='closest',
+#     template='plotly_white',
+#     width=900,
+#     height=600,
+#     showlegend=False
+# )
+
+# # Step 8: Save the plot as an HTML file
+# pio.write_html(fig, file='../static/4G_highway_cdf.html', auto_open=False)
+
+# # Show the plot
+# fig.show()
 
 
 

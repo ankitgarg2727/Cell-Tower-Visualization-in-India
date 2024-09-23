@@ -5,6 +5,9 @@ import matplotlib
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.graph_objects as go
+import plotly.express as px
+import numpy as np
 
 matplotlib.use('Agg')
 app = Flask(__name__)
@@ -49,15 +52,15 @@ def cdf():
     if tower=="3G" and road=="highway":
         path='./static/3G_highway_cdf.html'   
     elif tower=="3G" and road=="residential":
-        path='./static/3G_residential_cdf.html' 
-    elif tower=="3G" and road=="combined":
         path='./static/3G_combined_cdf.html' 
+    elif tower=="3G" and road=="combined":
+        path='./static/3G_residential_cdf.html' 
     elif tower=="4G" and road=="highway":
         path='./static/4G_highway_cdf.html' 
     elif tower=="4G" and road=="residential":
-        path='./static/4G_residential_cdf.html' 
-    elif tower=="4G" and road=="combined":
         path='./static/4G_combined_cdf.html' 
+    elif tower=="4G" and road=="combined":
+        path='./static/4G_residential_cdf.html' 
                          
     return render_template('cdf.html',path=path)
 
@@ -206,12 +209,12 @@ def correlation_tables():
                 'Area': 'Area_total',
                 'Population Density': 'population density_total',
                 'Household density': 'Household density',
-                '% Rural Population Density': '% Rural_pop_per_area'   ,
-                '% Rural Households Density': '% Rural_house_per_area',
+                '% Rural Population': '% Rural Population'   ,
+                '% Rural Households': '% Rural Households',
                 '% Rural Area': '% Rural Area'
             }
             for metric, column in metric_column_map.items():
-                if metric=='Area' or metric=="% Rural Area":
+                if metric=='Area':
                     correlation_value = df[column].corr(df['number_of_cell_towers'])
                     y_col='number_of_cell_towers'
                 else:
@@ -220,11 +223,32 @@ def correlation_tables():
                 correlation_value = f"{correlation_value:.3f}"
 
                 # sns.regplot(x=df[column], y=df[y_col], data=df, scatter_kws={"color": "blue"}, line_kws={"color": "red"})
-                # plt.title(f'Scatter Plot of {metric} vs Cell Towers per Area' if (metric != 'Area' and metric!='% Rural Area')  else f'Scatter Plot of {metric} vs Number of Cell Towers')
+                # plt.title(f'Scatter Plot of {metric} vs Cell Towers per Area' if (metric != 'Area')  else f'Scatter Plot of {metric} vs Number of Cell Towers')
                 # plt.xlabel(f'{metric}')
-                # plt.ylabel('Cell Towers per Area' if (metric != 'Area' and metric!='% Rural Area') else 'Number of Cell Towers')
-                # plt.savefig(f'static/plots/{operator}_{radio}_{metric}_{correlation_value}.png')
+                # plt.ylabel('Cell Towers per Area' if (metric != 'Area') else 'Number of Cell Towers')
+                # plt.savefig(f'static/plots/{operator}_{radio}_{metric}_{correlation_value}.png') 
                 # plt.close()
+                # fig = px.scatter(df, x=df[column], y=df[y_col], color_discrete_sequence=["blue"])
+
+                # x = df[column]
+                # y = df[y_col]
+                # coefficients = np.polyfit(x, y, 1)  # Linear regression (degree 1)
+                # regression_line = np.polyval(coefficients, x)
+                # fig.add_trace(go.Scatter(x=x, 
+                #          y=regression_line, 
+                #          mode='lines', 
+                #          line=dict(color='red'), 
+                #          name='Regression Line'))
+
+                # title = f'Scatter Plot of {metric} vs Cell Towers per Area' if (metric != 'Area') else f'Scatter Plot of {metric} vs Number of Cell Towers'
+                # x_label = f'{metric}'
+                # y_label = 'Cell Towers per Area' if (metric != 'Area') else 'Number of Cell Towers'
+
+                # fig.update_layout(title=title, 
+                #   xaxis_title=x_label, 
+                #   yaxis_title=y_label)
+
+                # fig.write_image(f'static/plots/{operator}_{radio}_{metric}_{correlation_value}.png')
                 correlations.append({
                     'metric': metric,
                     'operator': operator,
@@ -237,7 +261,7 @@ def correlation_tables():
             file_name = f'./{radio}_Income/{radio}_{operator}.csv' if operator != 'All Operators' else f'./{radio}_Income/{radio}.csv'
             df = pd.read_csv(file_name)
             metric_column_map = {
-                'Household Income Annual per Area' : 'income_per_area'
+                'Household Income Annual' : 'Household_income_annual'
             }
             for metric, column in metric_column_map.items():
                 correlation_value = df[column].corr(df['cell_towers_per_area'])
@@ -248,6 +272,28 @@ def correlation_tables():
                 # plt.ylabel('Cell Towers per Area')
                 # plt.savefig(f'static/plots/{operator}_{radio}_{metric}_{correlation_value}.png')
                 # plt.close()
+
+                # fig = px.scatter(df, x=df[column], y=df[y_col], color_discrete_sequence=["blue"])
+
+                # x = df[column]
+                # y = df[y_col]
+                # coefficients = np.polyfit(x, y, 1)  # Linear regression (degree 1)
+                # regression_line = np.polyval(coefficients, x)
+                # fig.add_trace(go.Scatter(x=x, 
+                #          y=regression_line, 
+                #          mode='lines', 
+                #          line=dict(color='red'), 
+                #          name='Regression Line'))
+
+                # title = f'Scatter Plot of {metric} vs Cell Towers per Area'
+                # x_label = f'{metric}'
+                # y_label = 'Cell Towers per Area'
+
+                # fig.update_layout(title=title, 
+                #   xaxis_title=x_label, 
+                #   yaxis_title=y_label)
+
+                # fig.write_image(f'static/plots/{operator}_{radio}_{metric}_{correlation_value}.png')
                 correlations.append({
                     'metric': metric,
                     'operator': operator,
